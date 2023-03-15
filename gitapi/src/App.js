@@ -1,37 +1,18 @@
-import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { Provider } from 'react-redux'
+import Routing from 'routes/Routing'
+import { store } from 'store/store'
+// import { worker } from '__issue__/browser'
 
 function App() {
-	const [isData, setIsData] = useState()
-
-	useEffect(() => {
-		const token = `${process.env.REACT_APP_ACCESS_TOKEN}`
-		const config = {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		}
-		const getData = async () => {
-			try {
-				const res = await axios.get(
-					process.env.REACT_APP_BACKEND_URL +
-						'/repos/angular/angular-cli/issues',
-					config,
-				)
-				setIsData(res.data)
-			} catch (err) {
-				console.log(err)
-			}
-		}
-		getData()
-	}, [])
-	console.log(isData)
-
+	// npx msw init public/
+	// if (process.env.NODE_ENV === 'development') {
+	// }
+	// worker.start()
+	
 	return (
-		<>
-			<h1>:)</h1>
-			{isData && isData.map((data, index) => <div key={index}>{data.url}</div>)}
-		</>
+		<Provider store={store}>
+			<Routing />
+		</Provider>
 	)
 }
 
