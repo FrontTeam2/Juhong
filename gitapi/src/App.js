@@ -1,12 +1,18 @@
+import { Global, ThemeProvider } from '@emotion/react'
 import { Provider } from 'react-redux'
-import Routing from 'routes/Routing'
+import { RouterProvider } from 'react-router'
 import { store } from 'store/store'
+import router from './routes/Routing'
+import globalStyles from './styles/global'
+import theme from './styles/theme'
 
 function App() {
-	
 	return (
 		<Provider store={store}>
-			<Routing />
+			<ThemeProvider theme={theme}>
+				<Global styles={globalStyles} />
+				<RouterProvider router={router} />
+			</ThemeProvider>
 		</Provider>
 	)
 }

@@ -1,37 +1,42 @@
-import Layout from 'components/Layout/Layout'
+// 데이터 전송 관련
+import { createBrowserRouter } from 'react-router-dom'
+import Layout from 'components'
 import DetailPage from 'pages/Detail'
-import IssuePage from 'pages/List'
-import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { getIssues } from 'reducer/issue'
-import styled from 'styled-components'
+import ListPage from 'pages/List'
+import HomePage from 'pages/Home'
+import NotFoundPage from 'pages/404'
 
-const Routing = () => {
-	const dispatch = useDispatch()
+/**
+ * @param "/" - 기본 경로
+ * @param "detail" - detail 경로
+ * @param "*" - 그 외 경로(404)
+ */
+const router = createBrowserRouter([
+	{
+		path: '/',
+		element: <Layout />,
 
-	useEffect(() => {
-		dispatch(getIssues())
-	})
+		// 자식 데이터 추가
+		children: [
+			{
+				path: '',
+				element: <HomePage />,
+			},
+			{
+				path: '/:owner/:repository/:page/:sort/:per_page',
+				element: <ListPage />,
+			},
+			{
+				path: '/:owner/:repository/:id',
+				element: <DetailPage />,
+			},
+		],
+	},
+	// ⬇️ 404페이지 생성 방법2.
+	{
+		path: '*',
+		element: <NotFoundPage />,
+	},
+])
 
-	return (
-		<BrowserRouter>
-			<Routes>
-				<Route element={<Layout />}>
-					<Route path={'/'} element={<IssuePage />} />
-					<Route path={'detail'} element={<DetailPage />} />
-				</Route>
-			</Routes>
-		</BrowserRouter>
-	)
-}
-export default Routing
-
-const Flex = styled.div`
-	display: flex;
-	justify-content: space-between;
-`
-
-const S = {
-	Flex,
-}
+export default router
