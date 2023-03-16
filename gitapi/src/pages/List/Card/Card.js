@@ -1,8 +1,8 @@
 function IssueCard() {
-  return (
-    <div>
-      <p>:o</p>
-    </div>
-  );
+	return (
+		<div>
+			<p>:o</p>
+		</div>
+	)
 }
-export default IssueCard;
+export default IssueCard

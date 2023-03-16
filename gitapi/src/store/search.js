@@ -18,6 +18,6 @@ export const searchSlice = createSlice({
 			state.text = action.payload
 		},
 	},
-});
+})
 
-export const searchActions = searchSlice.actions;
+export const searchActions = searchSlice.actions
