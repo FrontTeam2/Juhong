@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import logger from 'redux-logger'
 import { searchSlice } from './search'
+import { issueSlice } from './issue'
 
 /**
  * 외부에서 사용할 store
@@ -8,6 +9,7 @@ import { searchSlice } from './search'
 export const store = configureStore({
 	reducer: {
 		search: searchSlice.reducer,
+		issue: issueSlice.reducer,
 	},
 	devTools: process.env.NODE_ENV === 'development', // true(사용), false(미사용) => 개발자 모드의 여부
 	middleware: defaultMiddleware => {
