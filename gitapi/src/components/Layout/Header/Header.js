@@ -82,6 +82,9 @@ const Wrapper = styled.div`
 	width: 100%;
 	padding: 10px 0;
 	border-bottom: 2px solid ${({ theme }) => theme.PALETTE.gray[200]};
+	top: 0px;
+	position: sticky;
+	background-color: white;
 `
 const Container = styled.div`
 	width: 60%;
