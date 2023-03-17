@@ -1,8 +1,9 @@
 import styled from '@emotion/styled'
 import Loading from 'components/Layout/Loading/Loading'
+import Pagination from 'components/Layout/Pagination/Pagination'
 import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { getIssues } from 'store/issue'
 import { searchActions } from '../../store/search'
 import IssueCard from './components/Box'
@@ -11,7 +12,6 @@ const LimitIssue = 200
 
 function ListPage() {
 	const dispatch = useDispatch()
-	const navigate = useNavigate()
 
 	const issues = useSelector(store => store.issue.issues)
 	const getIssuesState = useSelector(store => store.issue.getIssueState)
@@ -53,7 +53,9 @@ function ListPage() {
 						<S.Wrapper>
 							{issues.map(issue => (
 								<IssueCard
-									number={`🌎 ${issue.number}`}
+									owner={owner}
+									repository={repository}
+									number={issue.number}
 									title={issue.title}
 									body={
 										issue.body
@@ -64,11 +66,16 @@ function ListPage() {
 									updatedAt={issue.updated_at}
 								/>
 							))}
+							<Pagination
+								total={LimitIssue}
+								limit={per_page}
+								sortType={sort}
+								page={page}
+							/>
 						</S.Wrapper>
 					</>
 				)}
 			</>
-			{/* <Pagination /> */}
 		</>
 	)
 }
