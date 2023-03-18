@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import logger from 'redux-logger'
 import { searchSlice } from './search'
+import { issuesSlice } from './issues'
 import { issueSlice } from './issue'
 
 /**
@@ -9,6 +10,7 @@ import { issueSlice } from './issue'
 export const store = configureStore({
 	reducer: {
 		search: searchSlice.reducer,
+		issues: issuesSlice.reducer,
 		issue: issueSlice.reducer,
 	},
 	devTools: process.env.NODE_ENV === 'development', // true(사용), false(미사용) => 개발자 모드의 여부

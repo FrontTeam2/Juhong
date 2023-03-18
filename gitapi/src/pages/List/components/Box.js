@@ -10,17 +10,39 @@ import {
 import { BsChat } from 'react-icons/bs'
 import remarkGfm from 'remark-gfm'
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { getIssue } from 'store/issue'
 
-function IssueBox({ number, title, body, commentLen, updatedAt }) {
-	console.log(typeof updatedAt)
+function IssueBox({
+	owner,
+	repository,
+	number,
+	title,
+	body,
+	commentLen,
+	updatedAt,
+}) {
+	// console.log(typeof updatedAt)
+	const dispatch = useDispatch()
+	const navigate = useNavigate()
+
+	// 카드 클릭 => 상세페이지로 이동
+	const ClickCard = id => {
+		console.log('🔴🔴🔴🔴🔴🔴🔴')
+		console.log(id)
+		dispatch(getIssue({ owner, repository, id }))
+		navigate(`/${owner}/${repository}/${id}`)
+	}
+
 	return (
-		<S.Wrapper>
+		<S.Wrapper onClick={() => ClickCard(number)}>
 			<S.LineContainer
 				css={css`
 					align-items: flex-start;
 				`}
 			>
-				<S.BoldText>{number}</S.BoldText>
+				<S.BoldText>🌎 {number}</S.BoldText>
 				<S.Title
 					css={css`
 						margin-left: 20px;

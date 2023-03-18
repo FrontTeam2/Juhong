@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { IssuesAPI } from '../apis/issues'
+import { IssueAPI } from '../apis/issues'
 
 /**
  * Dispatcher에서 사용되는 value 기본 형태
  */
 const initialState = {
-	issues: [],
+	issue: [],
 	getIssueState: {
 		loading: true,
 		done: false,
@@ -16,11 +16,11 @@ const initialState = {
 /**
  * Issue 조회
  */
-export const getIssues = createAsyncThunk(
-	'issue/getIssues',
-	async ({ owner, repository, params }) => {
-		console.log('dispatch ----> ', owner, repository, params)
-		const res = await IssuesAPI.getData(owner, repository, params)
+export const getIssue = createAsyncThunk(
+	'issue/getIssue',
+	async ({ owner, repository, id, params }) => {
+		console.log('dispatch ----> ', owner, repository, id)
+		const res = await IssueAPI.getData(owner, repository, id)
 		return res.data
 	},
 )
@@ -29,23 +29,23 @@ export const issueSlice = createSlice({
 	name: 'issue',
 	initialState,
 	extraReducers: builder => {
-		// get issues
+		// get issue
 
 		// 🟡 조회 로딩(pending 상태)
-		builder.addCase(getIssues.pending, state => {
+		builder.addCase(getIssue.pending, state => {
 			state.getIssueState.loading = true
 		})
 
 		// 🟢 조회 성공(fulfilled 상태)
-		builder.addCase(getIssues.fulfilled, (state, action) => {
-			state.issues = action.payload
+		builder.addCase(getIssue.fulfilled, (state, action) => {
+			state.issue = action.payload
 			state.getIssueState.loading = false
 			state.getIssueState.done = true
 			state.getIssueState.err = null
 		})
 
 		// 🔴 조회 실패(rejected 상태)
-		builder.addCase(getIssues.rejected, (state, action) => {
+		builder.addCase(getIssue.rejected, (state, action) => {
 			state.getIssueState.loading = false
 			state.getIssueState.done = true
 			state.getIssueState.err = action.payload

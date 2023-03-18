@@ -4,7 +4,7 @@ import Pagination from 'components/Layout/Pagination/Pagination'
 import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { getIssues } from 'store/issue'
+import { getIssues } from 'store/issues'
 import { searchActions } from '../../store/search'
 import IssueCard from './components/Box'
 
@@ -13,8 +13,8 @@ const LimitIssue = 200
 function ListPage() {
 	const dispatch = useDispatch()
 
-	const issues = useSelector(store => store.issue.issues)
-	const getIssuesState = useSelector(store => store.issue.getIssueState)
+	const issues = useSelector(store => store.issues.issues)
+	const getIssuesState = useSelector(store => store.issues.getIssuesState)
 	/**
 	 * @param {String} owner - 소유자
 	 * @param {String} repository - 레포지토리
