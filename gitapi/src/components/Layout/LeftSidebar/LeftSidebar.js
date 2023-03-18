@@ -1,36 +1,31 @@
 import styled from 'styled-components'
 import { useDispatch } from 'react-redux'
-import { Outlet, useLocation, useNavigate } from 'react-router-dom'
+import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { searchActions } from 'store/search'
 import Filter from './components/Filter'
-import { useState } from 'react'
 
 function LeftSidebar() {
 	const dispatch = useDispatch() // dispatch를 이용한 response 전달
 	const navigate = useNavigate() // url 경로 이동용 내비게이션
 
-	// issue 갯수 관리 state
-	const [per_page, setPer_page] = useState(10)
-
 	/**
-	 * 현재 url경로의 일부분
-	 * @ex) /angular/angular-cli
+	 * @param {String} owner - 소유자
+	 * @param {String} repository - 레포지토리
+	 * @param {String} page - 현재 페이지
+	 * @param {String} sort - 분류
+	 * @param {String} per_page - 페이지 당 게시물 수
 	 */
-	const currentLocation = useLocation()
-		.pathname.split('/')
-		.slice(0, 3)
-		.join('/')
+	const { owner, repository, page, sort, per_page } = useParams()
 
 	/**
 	 * 나열 타입 변경 코드(비동기)
 	 * @param {String} sortType 선택된 나열 타입
 	 */
 	const changeSort = sortType => {
-		setPer_page(10)
 		dispatch(
-			searchActions.editSearchText(`https://github.com${currentLocation}`),
+			searchActions.editSearchText(`https://github.com${owner}/${repository}`),
 		)
-		navigate(`${currentLocation}/1/${sortType}/10`)
+		navigate(`/${owner}/${repository}/1/${sortType}/${per_page}`)
 	}
 
 	return (
@@ -42,7 +37,7 @@ function LeftSidebar() {
 					<button onClick={() => changeSort('updated')}>업데이트순</button>
 					<button onClick={() => changeSort('comments')}>댓글순</button>
 				</SortArea>
-				<Filter per_page={per_page} setPer_page={setPer_page} />
+				<Filter />
 			</Title>
 			<Outlet />
 		</FULL>
